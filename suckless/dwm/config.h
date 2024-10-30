@@ -115,13 +115,6 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_w,      quit,           {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {1} },
-
-  { 0,                            XF86XK_AudioLowerVolume,   spawn,          SHCMD ("amixer sset Master 5%- unmute")},
-  { 0,                            XF86XK_AudioMute,          spawn,          SHCMD ("amixer sset Master $(amixer get Master | grep -q '\\[on\\]' && echo 'mute' || echo 'unmute')")},
-  { 0,                            XF86XK_AudioRaiseVolume,   spawn,          SHCMD ("amixer sset Master 5%+ unmute")},
-  { 0,                            XF86XK_MonBrightnessUp,    spawn,          SHCMD ("brightnessctl s +10%")},
-  { 0,                            XF86XK_MonBrightnessDown,  spawn,          SHCMD ("brightnessctl s 10%-")},
-
 };
 
 /* button definitions */
