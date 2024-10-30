@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Daily Wire+
+Exec=/home/frost/.local/bin/dailywire
+Terminal=false
+Type=Application
+Icon=/home/frost/.local/bin/dailywire.png

@@ -1,0 +1,2 @@
+#!/bin/bash
+thorium-browser --app=https://app.logos.com/

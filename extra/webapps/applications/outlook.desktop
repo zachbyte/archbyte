@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Outlook
+Exec=/home/frost/.local/bin/outlook
+Terminal=false
+Type=Application
+Icon=/home/frost/.local/bin/outlook.png
+
