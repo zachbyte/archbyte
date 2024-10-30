@@ -8,8 +8,8 @@
 
 ## In Arch ISO
 
-bash <(curl -fsSL https://github.com/zachbyte/archproject/raw/main/server-setup.sh)
+bash <(curl -fsSL https://github.com/zachbyte/archbyte/raw/main/arch/server-setup.sh)
 
 ## In Arch Install
 
-curl -fsSL https://github.com/zachbyte/archproject/raw/main/install.sh
+curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh
