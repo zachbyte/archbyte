@@ -18,6 +18,8 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_REDUCE_BLANKS
 
+eval "$(zoxide init zsh)"
+
 # essentials
 alias grep='grep --color=auto'
 alias ff='clear && fastfetch'
@@ -46,7 +48,7 @@ alias log='git log'
 export EDITOR='nvim'
 export VISUAL='nvim'
 export TERMINAL='st-256color'
-export BROWSER='firefox'
+export BROWSER='thorium-browser'
 
 # parse the branch and transfer it to the prompt
 parse_git_branch() {
