@@ -9,4 +9,7 @@
 ## In Arch ISO
 
 bash <(curl -fsSL https://github.com/zachbyte/archproject/raw/main/server-setup.sh)
- n
+
+## In Arch Install
+
+curl -fsSL https://github.com/zachbyte/archproject/raw/main/install.sh

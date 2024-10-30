@@ -107,7 +107,7 @@ installDeps() {
     current_step=$((current_step + 1))
 
     $AUR_HELPER -S --needed --noconfirm \
-        cava pipes.sh checkupdates-with-aur thorium-browser-bin github-desktop > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
+        cava pipes.sh checkupdates-with-aur thorium-browser-bin > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
     printf "%b\n" "${GREEN}AUR dependencies installed (${current_step}/${total_steps})${RC}"
 }
 
