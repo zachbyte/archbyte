@@ -130,13 +130,13 @@ setupConfigurations() {
     mv "$HOME/.zprofile" "$HOME/.zprofile-bak" > /dev/null 2>&1
 
     # Copy web apps and their desktop entries
-    if [ -d "$DWM_DIR/extra/bin" ]; then
-        cp -r "$DWM_DIR/extra/bin/"* "$HOME/.local/bin/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy web apps to bin directory.${RC}"; }
+    if [ -d "$DWM_DIR/extra/webapps/bin" ]; then
+        cp -r "$DWM_DIR/extra/webapps/bin/"* "$HOME/.local/bin/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy web apps to bin directory.${RC}"; }
         chmod +x "$HOME/.local/bin/"* > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to make web apps executable.${RC}"; }
     fi
 
-    if [ -d "$DWM_DIR/extra/applications" ]; then
-        cp -r "$DWM_DIR/extra/applications/"* "$HOME/.local/share/applications/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy desktop entries.${RC}"; }
+    if [ -d "$DWM_DIR/extra/webapps/applications" ]; then
+        cp -r "$DWM_DIR/extra/webapps/applications/"* "$HOME/.local/share/applications/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy desktop entries.${RC}"; }
     fi
 
     $ESCALATION_TOOL mkdir -p /etc/zsh/ > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zsh directory.${RC}"; }
