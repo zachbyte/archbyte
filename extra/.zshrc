@@ -50,6 +50,12 @@ export VISUAL='nvim'
 export TERMINAL='st-256color'
 export BROWSER='thorium-browser'
 
+# personal
+alias hfj="z ~/build/code/hfj && nvim"
+alias dwme="z ~/dwm && nvim suckless/dwm/config.h && z suckless/dwm/"
+alias nvime="z ~/.config/nvim && nvim && z"
+alias moon="clear && ssh goldgrasp@192.168.1.2"
+
 # parse the branch and transfer it to the prompt
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'

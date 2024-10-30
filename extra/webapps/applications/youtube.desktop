@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Youtube
+Exec=/home/frost/.local/bin/youtube
+Terminal=false
+Type=Application
+Icon=/home/frost/.local/bin/youtube.png

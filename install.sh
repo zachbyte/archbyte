@@ -107,7 +107,7 @@ installDeps() {
     current_step=$((current_step + 1))
 
     $AUR_HELPER -S --needed --noconfirm \
-        cava pipes.sh checkupdates-with-aur thorium-browser-bin github-desktop-bin > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
+        cava pipes.sh checkupdates-with-aur thorium-browser-bin github-desktop-bin roon-tui > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
     printf "%b\n" "${GREEN}AUR dependencies installed (${current_step}/${total_steps})${RC}"
 }
 
@@ -116,6 +116,11 @@ setupConfigurations() {
 
     find "$HOME" -type l -exec rm {} + || { printf "%b\n" "${RED}Failed to remove symlinks.${RC}"; }
 
+    # Create necessary directories
+    mkdir -p "$XDG_CONFIG_HOME" || { printf "%b\n" "${RED}Failed to create config directory.${RC}"; }
+    mkdir -p "$HOME/.local/bin" || { printf "%b\n" "${RED}Failed to create local bin directory.${RC}"; }
+    mkdir -p "$HOME/.local/share/applications" || { printf "%b\n" "${RED}Failed to create applications directory.${RC}"; }
+
     mv "$XDG_CONFIG_HOME/nvim" "$XDG_CONFIG_HOME/nvim-bak" > /dev/null 2>&1
     mv "$XDG_CONFIG_HOME/qt5ct" "$XDG_CONFIG_HOME/qt5ct-bak" > /dev/null 2>&1
     mv "$XDG_CONFIG_HOME/gtk-3.0" "$XDG_CONFIG_HOME/gtk-3.0-bak" > /dev/null 2>&1
@@ -123,6 +128,23 @@ setupConfigurations() {
     mv "$XDG_CONFIG_HOME/cava" "$XDG_CONFIG_HOME/cava-bak" > /dev/null 2>&1
     mv "$HOME/.zshrc" "$HOME/.zshrc-bak" > /dev/null 2>&1
     mv "$HOME/.zprofile" "$HOME/.zprofile-bak" > /dev/null 2>&1
+
+    # Copy web apps and their desktop entries
+    if [ -d "$DWM_DIR/extra/bin" ]; then
+        cp -r "$DWM_DIR/extra/bin/"* "$HOME/.local/bin/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy web apps to bin directory.${RC}"; }
+        chmod +x "$HOME/.local/bin/"* > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to make web apps executable.${RC}"; }
+    fi
+
+    if [ -d "$DWM_DIR/extra/applications" ]; then
+        cp -r "$DWM_DIR/extra/applications/"* "$HOME/.local/share/applications/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy desktop entries.${RC}"; }
+    fi
+
+    $ESCALATION_TOOL mkdir -p /etc/zsh/ > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zsh directory.${RC}"; }
+    $ESCALATION_TOOL touch /etc/zsh/zshenv > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zshenv.${RC}"; }
+    echo "export ZDOTDIR=\"$HOME\"" | $ESCALATION_TOOL tee -a /etc/zsh/zshenv > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set ZDOTDIR.${RC}"; }
+    ln -sf "$DWM_DIR/extra/.zshrc" "$HOME/.zshrc" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up .zshrc.${RC}"; }
+    ln -sf "$DWM_DIR/extra/.zprofile" "$HOME/.zprofile" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up .zprofile.${RC}"; }
+    touch "$HOME/.zlogin" "$HOME/.zshenv" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zlogin and zshenv.${RC}"; }
 
     $ESCALATION_TOOL mkdir -p /etc/zsh/ > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zsh directory.${RC}"; }
     $ESCALATION_TOOL touch /etc/zsh/zshenv > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zshenv.${RC}"; }
@@ -148,9 +170,9 @@ setupConfigurations() {
     $ESCALATION_TOOL ln -sf /bin/dash /bin/sh > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create symlink for sh.${RC}"; }
     $ESCALATION_TOOL usermod -s /bin/zsh "$USERNAME" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to change shell.${RC}"; }
 
-    mkdir -p "$HOME/Documents" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create Documents directory.${RC}"; }
+    mkdir -p "$HOME/build" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create build directory.${RC}"; }
     chmod +x "$DWM_DIR/extra/debloat.sh" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to make debloat.sh executable.${RC}"; }
-    ln -sf "$DWM_DIR/extra/debloat.sh" "$HOME/Documents/debloat.sh" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up debloat.sh.${RC}"; }
+    ln -sf "$DWM_DIR/extra/debloat.sh" "$HOME/build/debloat.sh" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up debloat.sh.${RC}"; }
 
     if pacman -Q grub > /dev/null 2>&1; then
         $ESCALATION_TOOL cp -R "$DWM_DIR/extra/grub/catppuccin-mocha-grub/" /usr/share/grub/themes/ > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up grub theme.${RC}"; }

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Microsoft 365
+Exec=/home/frost/.local/bin/microsoft365
+Terminal=false
+Type=Application
+Icon=/home/frost/.local/bin/microsoft365.png
