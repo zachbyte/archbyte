@@ -42,7 +42,7 @@ cloneRepo() {
 }
 
 declareFuncs() {
-    DWM_DIR="$HOME/dwm"
+    DWM_DIR="$HOME/archbyte"
     mkdir -p "$HOME/.config"
     XDG_CONFIG_HOME="$HOME/.config"
     USERNAME=$(whoami)
