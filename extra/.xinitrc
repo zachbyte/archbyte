@@ -4,17 +4,13 @@ pamixer &
 /usr/lib/polkit-kde-authentication-agent-1 &
 
 while true; do
-    time=$(date "+%I:%M %p")
+    time=$(date "+%I:%M:%S %p")
 
-    volume=$(pamixer --get-volume-human)
-
-    updates=$(checkupdates | wc -l)
-
-    status="  $time    $updates    $volume"
+    status="  $time"
 
     xsetroot -name "$status"
 
-    sleep 1m
+    sleep 1s
 done &
 
 hsetroot -solid "#1E1E2E"
