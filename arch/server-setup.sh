@@ -652,18 +652,11 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 
-# After pacstrap and chroot setup
-# Ensure user home directory is created
-arch-chroot /mnt /bin/bash -c "
-    useradd -m -G wheel -s /bin/bash $USERNAME
-    echo '$USERNAME:$PASSWORD' | chpasswd
-"
+arch-chroot /mnt
 
-# Change to the user's home directory and run the command within the chroot environment
-arch-chroot /mnt /bin/bash -c "
-    cd /home/$USERNAME
-    curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
-"
+cd /home/$USERNAME
+curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
+exit
 
 echo "Script executed in the user's home directory"
 
