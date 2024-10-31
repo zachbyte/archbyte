@@ -623,7 +623,7 @@ echo -ne "
                DWM Setup
 -------------------------------------------------------------------------
 "
-cd "$HOME" || exit
+cd /mnt/home || exit
 curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
 cd /
 
