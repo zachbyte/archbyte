@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Microsoft 365
-Exec=~/.local/bin/microsoft365
-Terminal=false
-Type=Application
-Icon=~/.local/bin/microsoft365.png

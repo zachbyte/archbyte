@@ -68,6 +68,10 @@ static const char *thorcmd[] = { "thorium-browser", NULL };
 static const char *thuncmd[] = { "thunar", NULL };
 static const char *obsicmd[] = { "obsidian", NULL };
 static const char *githubcmd[] = { "github-desktop", NULL };
+static const char *logoscmd[] = { "/home/frost/.local/bin/logoswebapp", NULL };
+static const char *dwcmd[] = { "/home/frost/.local/bin/dailywire", NULL };
+static const char *microsoftcmd[] = { "/home/frost/.local/bin/microsoft365", NULL };
+static const char *outlookcmd[] = { "/home/frost/.local/bin/outlook", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -78,6 +82,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_e,      spawn,          {.v = thuncmd } },
 	{ MODKEY,                       XK_o,      spawn,          {.v = obsicmd } },
 	{ MODKEY,                       XK_g,      spawn,          {.v = githubcmd } },
+	{ MODKEY,                       XK_l,      spawn,          {.v = logoscmd } },
+	{ MODKEY,                       XK_d,      spawn,          {.v = dwcmd } },
+	{ MODKEY,                       XK_c,      spawn,          {.v = microsoftcmd } },
+	{ MODKEY,                       XK_m,      spawn,          {.v = outlookcmd } },
 //	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },

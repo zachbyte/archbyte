@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Youtube
-Exec=~/.local/bin/youtube
-Terminal=false
-Type=Application
-Icon=~/.local/bin/youtube.png

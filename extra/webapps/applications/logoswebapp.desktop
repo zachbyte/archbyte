@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Logos Bible Study
-Exec=~/.local/bin/logoswebapp
-Terminal=false
-Type=Application
-Icon=~/.local/bin/logoswebapp.png
-

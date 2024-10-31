@@ -123,7 +123,6 @@ setupConfigurations() {
     # Create necessary directories
     mkdir -p "$XDG_CONFIG_HOME" || { printf "%b\n" "${RED}Failed to create config directory.${RC}"; }
     mkdir -p "$HOME/.local/bin" || { printf "%b\n" "${RED}Failed to create local bin directory.${RC}"; }
-    mkdir -p "$HOME/.local/share/applications" || { printf "%b\n" "${RED}Failed to create applications directory.${RC}"; }
 
     mv "$XDG_CONFIG_HOME/nvim" "$XDG_CONFIG_HOME/nvim-bak" > /dev/null 2>&1
     mv "$XDG_CONFIG_HOME/qt5ct" "$XDG_CONFIG_HOME/qt5ct-bak" > /dev/null 2>&1
@@ -137,10 +136,6 @@ setupConfigurations() {
     if [ -d "$DWM_DIR/extra/webapps/bin" ]; then
         cp -r "$DWM_DIR/extra/webapps/bin/"* "$HOME/.local/bin/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy web apps to bin directory.${RC}"; }
         chmod +x "$HOME/.local/bin/"* > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to make web apps executable.${RC}"; }
-    fi
-
-    if [ -d "$DWM_DIR/extra/webapps/applications" ]; then
-        cp -r "$DWM_DIR/extra/webapps/applications/"* "$HOME/.local/share/applications/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy desktop entries.${RC}"; }
     fi
 
     $ESCALATION_TOOL mkdir -p /etc/zsh/ > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zsh directory.${RC}"; }

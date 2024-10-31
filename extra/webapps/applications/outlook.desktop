@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Outlook
-Exec=~/.local/bin/outlook
-Terminal=false
-Type=Application
-Icon=~/.local/bin/outlook.png
-

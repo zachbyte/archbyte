@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Daily Wire+
-Exec=~/.local/bin/dailywire
-Terminal=false
-Type=Application
-Icon=~/.local/bin/dailywire.png
