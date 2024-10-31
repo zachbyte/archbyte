@@ -618,16 +618,6 @@ sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& splash /' /etc/default/grub
 
 echo -e "All set!"
 
-echo -ne "
--------------------------------------------------------------------------
-               DWM Setup
--------------------------------------------------------------------------
-"
-cd /mnt/home || exit
-curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
-cd /
-
-echo -e "All set!"
 
 echo -ne "
 -------------------------------------------------------------------------
@@ -655,4 +645,48 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: A
 # Add sudo rights
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+
+echo -ne "
+-------------------------------------------------------------------------
+               DWM Setup
+-------------------------------------------------------------------------
+"
+
+sync
+
+# Ensure everything is mounted
+if ! mountpoint -q /mnt; then
+    echo "ERROR! Failed to mount ${partition3} to /mnt after multiple attempts."
+    exit 1
+fi
+
+# Create the EFI boot directory
+mkdir -p /mnt/boot/efi
+mount -t vfat -L EFIBOOT /mnt/boot/
+
+# Check again if the drive is mounted
+if ! grep -qs '/mnt' /proc/mounts; then
+    echo "Drive is not mounted, cannot continue"
+    echo "Rebooting in 3 Seconds ..." && sleep 1
+    echo "Rebooting in 2 Seconds ..." && sleep 1
+    echo "Rebooting in 1 Second ..." && sleep 1
+    reboot now
+fi
+
+# After pacstrap and chroot setup
+# Ensure user home directory is created
+arch-chroot /mnt /bin/bash -c "
+    useradd -m -G wheel -s /bin/bash $USERNAME
+    echo '$USERNAME:$PASSWORD' | chpasswd
+"
+
+# Change to the user's home directory and run the command within the chroot environment
+arch-chroot /mnt /bin/bash -c "
+    cd /home/$USERNAME
+    curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
+"
+
+echo "Script executed in the user's home directory"
+
+echo -e "All set!"
 EOF
