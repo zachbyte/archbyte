@@ -12,4 +12,4 @@ bash <(curl -fsSL https://github.com/zachbyte/archbyte/raw/main/arch/server-setu
 
 ## In Arch Install
 
-curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh
+curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
