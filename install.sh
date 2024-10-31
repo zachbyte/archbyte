@@ -177,6 +177,7 @@ setupConfigurations() {
     fi
 
     printf "%b\n" "${YELLOW}Starting and enabling default network for VMs...${RC}"
+    $ESCALATION_TOOL systemctl enable --now libvirtd.service > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start enable libvirtd.${RC}"; }
     $ESCALATION_TOOL virsh net-start default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start default network.${RC}"; }
     $ESCALATION_TOOL virsh net-autostart default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set default network to autostart.${RC}"; }
 
