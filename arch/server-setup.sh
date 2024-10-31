@@ -652,11 +652,11 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 
-arch-chroot /mnt
-
-cd /home/$USERNAME
-curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
-exit
+# Change to the user's home directory and run the command within the chroot environment
+arch-chroot /mnt /bin/bash -c "
+    cd /home/$USERNAME
+    curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
+"
 
 echo "Script executed in the user's home directory"
 
