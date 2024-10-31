@@ -72,6 +72,9 @@ setSysOps() {
     printf "%b\n" "${YELLOW}Setting up default cursor...${RC}"
     $ESCALATION_TOOL mkdir -p /usr/share/icons/default
     $ESCALATION_TOOL touch /usr/share/icons/default/index.theme
+    if ! grep -q 'Inherits=' /usr/share/icons/default/index.theme; then
+        $ESCALATION_TOOL echo "Inherits=Adwaita" > /usr/share/icons/default/index.theme
+    fi
     $ESCALATION_TOOL sed -i 's/^Inherits=Adwaita$/Inherits=BreezeX-Black/' /usr/share/icons/default/index.theme > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set breeze cursor.${RC}"; }
 }
 
@@ -101,7 +104,7 @@ installDeps() {
         ttf-fira-sans ttf-fira-mono polkit-kde-agent xdg-desktop-portal zip unzip \
         qt5-graphicaleffects qt5-quickcontrols2 noto-fonts-extra noto-fonts-cjk noto-fonts \
         cmatrix gtk3 neovim hsetroot pamixer mpv feh zsh dash pipewire-pulse easyeffects qt5ct \
-        thunar obsidian zoxide bitwarden gparted \
+        thunar obsidian zoxide bitwarden gparted capitaine-cursors \
         qemu python python-pip libvirt bridge-utils virt-install virt-manager dnsmasq \
         bashtop zoxide zsh-syntax-highlighting ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
@@ -110,6 +113,17 @@ installDeps() {
     $AUR_HELPER -S --needed --noconfirm \
         cava pipes.sh checkupdates-with-aur thorium-browser-bin github-desktop-bin auto-cpufreq > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
     printf "%b\n" "${GREEN}AUR dependencies installed (${current_step}/${total_steps})${RC}"
+
+    printf "%b\n" "${YELLOW}Starting and enabling default network for VMs...${RC}"
+    $ESCALATION_TOOL virsh net-start default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start default network.${RC}"; }
+    $ESCALATION_TOOL virsh net-autostart default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set default network to autostart.${RC}"; }
+
+    printf "%b\n" "${YELLOW}Adding user to required groups...${RC}"
+    $ESCALATION_TOOL usermod -aG libvirt $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to libvirt group.${RC}"; }
+    $ESCALATION_TOOL usermod -aG libvirt-qemu $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to libvirt-qemu group.${RC}"; }
+    $ESCALATION_TOOL usermod -aG kvm $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to kvm group.${RC}"; }
+    $ESCALATION_TOOL usermod -aG input $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to input group.${RC}"; }
+    $ESCALATION_TOOL usermod -aG disk $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to disk group.${RC}"; }
 }
 
 setupConfigurations() {
