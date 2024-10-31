@@ -72,7 +72,7 @@ setSysOps() {
     printf "%b\n" "${YELLOW}Setting up default cursor...${RC}"
     $ESCALATION_TOOL mkdir -p /usr/share/icons/default
     $ESCALATION_TOOL touch /usr/share/icons/default/index.theme
-    $ESCALATION_TOOL sed -i 's/^Inherits=Adwaita$/Inherits=BreezeX-Black/' /usr/share/icons/default/index.theme > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set breeze cursor.${RC}"; }
+    echo "Inherits=BreezeX-Black" | $ESCALATION_TOOL tee /usr/share/icons/default/index.theme > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set breeze cursor.${RC}"; }
 }
 
 setupAutoLogin() {
