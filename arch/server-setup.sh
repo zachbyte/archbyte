@@ -645,16 +645,4 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: A
 # Add sudo rights
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-
-echo -ne "
--------------------------------------------------------------------------
-               DWM Setup
--------------------------------------------------------------------------
-"
-
-cd /mnt/home/$USERNAME && curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
-
-echo "Script executed in the user's home directory"
-
-echo -e "All set!"
 EOF
