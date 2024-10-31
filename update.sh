@@ -29,7 +29,7 @@ requestElevation() {
 }
 
 declareFuncs() {
-    DWM_DIR="$HOME/dwm"
+    DWM_DIR="$HOME/archbyte"
 }
 
 checkUserChanges() {
