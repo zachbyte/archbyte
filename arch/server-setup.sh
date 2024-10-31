@@ -652,27 +652,6 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 
-sync
-
-# Ensure everything is mounted
-if ! mountpoint -q /mnt; then
-    echo "ERROR! Failed to mount ${partition3} to /mnt after multiple attempts."
-    exit 1
-fi
-
-# Create the EFI boot directory
-mkdir -p /mnt/boot/efi
-mount -t vfat -L EFIBOOT /mnt/boot/
-
-# Check again if the drive is mounted
-if ! grep -qs '/mnt' /proc/mounts; then
-    echo "Drive is not mounted, cannot continue"
-    echo "Rebooting in 3 Seconds ..." && sleep 1
-    echo "Rebooting in 2 Seconds ..." && sleep 1
-    echo "Rebooting in 1 Second ..." && sleep 1
-    reboot now
-fi
-
 # After pacstrap and chroot setup
 # Ensure user home directory is created
 arch-chroot /mnt /bin/bash -c "
