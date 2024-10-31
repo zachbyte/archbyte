@@ -654,7 +654,7 @@ echo -ne "
 
 # Change to the user's home directory and run the command within the chroot environment
 arch-chroot /mnt /bin/bash -c "
-    cd /home/$USERNAME
+    cd /home/$username
     curl -fsSL https://github.com/zachbyte/archbyte/raw/main/install.sh | sh
 "
 
