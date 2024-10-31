@@ -86,7 +86,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_n,      spawn,          {.v = dwcmd } },
 	{ MODKEY,                       XK_c,      spawn,          {.v = microsoftcmd } },
 	{ MODKEY,                       XK_m,      spawn,          {.v = outlookcmd } },
-//	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
