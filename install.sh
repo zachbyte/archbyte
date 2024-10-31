@@ -113,17 +113,6 @@ installDeps() {
     $AUR_HELPER -S --needed --noconfirm \
         cava pipes.sh checkupdates-with-aur thorium-browser-bin github-desktop-bin auto-cpufreq > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
     printf "%b\n" "${GREEN}AUR dependencies installed (${current_step}/${total_steps})${RC}"
-
-    printf "%b\n" "${YELLOW}Starting and enabling default network for VMs...${RC}"
-    $ESCALATION_TOOL virsh net-start default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start default network.${RC}"; }
-    $ESCALATION_TOOL virsh net-autostart default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set default network to autostart.${RC}"; }
-
-    printf "%b\n" "${YELLOW}Adding user to required groups...${RC}"
-    $ESCALATION_TOOL usermod -aG libvirt $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to libvirt group.${RC}"; }
-    $ESCALATION_TOOL usermod -aG libvirt-qemu $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to libvirt-qemu group.${RC}"; }
-    $ESCALATION_TOOL usermod -aG kvm $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to kvm group.${RC}"; }
-    $ESCALATION_TOOL usermod -aG input $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to input group.${RC}"; }
-    $ESCALATION_TOOL usermod -aG disk $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to disk group.${RC}"; }
 }
 
 setupConfigurations() {
@@ -194,6 +183,17 @@ setupConfigurations() {
         $ESCALATION_TOOL cp "$DWM_DIR/extra/grub/grub" /etc/default/ > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up grub configuration.${RC}"; }
         $ESCALATION_TOOL grub-mkconfig -o /boot/grub/grub.cfg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to generate grub configuration.${RC}"; }
     fi
+
+    printf "%b\n" "${YELLOW}Starting and enabling default network for VMs...${RC}"
+    $ESCALATION_TOOL virsh net-start default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start default network.${RC}"; }
+    $ESCALATION_TOOL virsh net-autostart default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set default network to autostart.${RC}"; }
+
+    printf "%b\n" "${YELLOW}Adding user to required groups...${RC}"
+    $ESCALATION_TOOL usermod -aG libvirt $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to libvirt group.${RC}"; }
+    $ESCALATION_TOOL usermod -aG libvirt-qemu $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to libvirt-qemu group.${RC}"; }
+    $ESCALATION_TOOL usermod -aG kvm $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to kvm group.${RC}"; }
+    $ESCALATION_TOOL usermod -aG input $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to input group.${RC}"; }
+    $ESCALATION_TOOL usermod -aG disk $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to disk group.${RC}"; }
 }
 
 compileSuckless() {
