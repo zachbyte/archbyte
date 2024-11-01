@@ -1,6 +1,6 @@
-<div align="center">
-  <h1>archbyte</h1>
-</div>
+<p align="center">
+  <img src=".github/images/archlogo.png" alt="Image">
+</p>
 
 
 <div align="center">
