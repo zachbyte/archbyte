@@ -20,15 +20,15 @@ Run in arch ISO.
  bash <(curl -fsSL https://github.com/zachbyte/archbyte/raw/main/arch/server-setup.sh)
  ```
 
-### Wifi
-Steps to connect to wifi:
-```shell
-rfkill unblock all
-iwctl
-station list
-station <station> connect <yourwifi>
-```
-Enter password.
+> [!note]
+> Steps to connect to wifi:
+> ```shell
+> rfkill unblock all
+> iwctl
+> station list
+> station <station> connect <yourwifi>
+> ```
+> Enter password.
 
 <p align="center">
   <img src=".github/images/logo.png" alt="Image">
@@ -52,12 +52,14 @@ Install via git
   chmod +x install.sh
   ./install.sh
   ```
-### Wifi
-Steps to connect to wifi:
-```shell
-nmtui
-```
-Then selects your wifi.
+
+> [!note]
+> Steps to connect to wifi:
+> ```shell
+> nmtui
+> ```
+> Then selects your wifi.
+
 
 Starting dwm
 - DWM is auto-started from tty1 via autologin and zprofile only after rebooting / logging out & logging back in.
