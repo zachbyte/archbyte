@@ -87,7 +87,7 @@ Important notes
 | `MOD SHIFT + W` | Restarts dwm and keeps application positions |
 | `MOD SHIFT + F` | Toggles fullscreen (Actualfullscreen Patch) |
 | `MOD + B` | Spawns thorium (Browser) |
-| `MOD + N` | Spanws dailyWire (News) |
+| `MOD + N` | Spawns dailyWire (News) |
 | `MOD + M` | Spawns outlook (Mail) |
 | `MOD + O` | Spawns obsidian |
 | `MOD + C` | Spawns microsoft 365 (Copilot) |
