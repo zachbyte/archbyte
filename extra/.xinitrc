@@ -3,16 +3,24 @@
 pamixer &
 /usr/lib/polkit-kde-authentication-agent-1 &
 
+prev_date=""
+prev_time=""
+
 while true; do
-    time=$(date "+%Y-%m-%d %I:%M %p")
+    current_date=$(date "+%Y-%m-%d")
+    current_time=$(date "+%I:%M %p")
 
-    status="  $time"
+    if [ "$current_date $current_time" != "$prev_date $prev_time" ]; then
+        date_status="󰃭  $current_date"
+        time_status="  $current_time"
+        xsetroot -name "$date_status  $time_status"
+        prev_date=$current_date
+        prev_time=$current_time
+    fi
 
-    xsetroot -name "$status"
-
-    sleep 1m
+    sleep 1
 done &
 
 hsetroot -solid "#1E1E2E"
-
 exec dwm
+
