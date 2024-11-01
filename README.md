@@ -61,8 +61,8 @@ Uninstalling dotfiles
 > This will restore any previous configuration files overwritten by the install script.
 
 > [!IMPORTANT]  
-> This rice relies on having a permament existing ``dwm/`` directory. Do **NOT** remove the directory after setup.
-> Any changes to the dotfiles should be made in the ``dwm/`` directory, any changes made in ``~/.config/`` will **NOT** work.
+> This rice relies on having a permament existing ``archbyte/`` directory. Do **NOT** remove the directory after setup.
+> Any changes to the dotfiles should be made in the ``archbyte/`` directory, any changes made in ``~/.config/`` will **NOT** work.
 
 <div align="center">
   <h2>Information</h2>
@@ -79,18 +79,23 @@ Important notes
 
 | Keybind | Description |  
 | --- | --- |  
-| `ALT SHIFT + Enter` | Spawns st (Terminal) |  
-| `ALT SHIFT + P` | Spawns dmenu (Application launcher) |  
-| `ALT SHIFT + C` | Kills current window |  
-| `ALT SHIFT + Q` | Kills dwm |  
-| `ALT SHIFT + W` | Restarts dwm and keeps application positions |
-| `ALT SHIFT + F` | Toggles fullscreen (Actualfullscreen Patch) |
-| `ALT + Q` | Spawns librewolf (Browser) |
-| `ALT + ESC` | Spawns maim (Screenshot utility) | 
-| `ALT + LMB` | Drags selected window |
-| `ALT + RMB` | Resizes window in floating & resizes mfact in tiled; when two or more windows are on screen |
-| `ALT + SPACE` | Makes the selected window float |
-| `ALT + R` | Resets mfact |
+| `MOD + X` | Spawns st (Terminal) |  
+| `MOD + R` | Spawns dmenu (Application launcher) |  
+| `MOD + Q` | Kills current window |  
+| `MOD + Tab` | Switch between tags |
+| `MOD SHIFT + Q` | Kills dwm |  
+| `MOD SHIFT + W` | Restarts dwm and keeps application positions |
+| `MOD SHIFT + F` | Toggles fullscreen (Actualfullscreen Patch) |
+| `MOD + B` | Spawns thorium (Browser) |
+| `MOD + N` | Spanws dailyWire (News) |
+| `MOD + M` | Spawns outlook (Mail) |
+| `MOD + O` | Spawns obsidian |
+| `MOD + C` | Spawns microsoft 365 (Copilot) |
+| `MOD + P` | Spawns maim (Screenshot utility) | 
+| `MOD + LMB` | Drags selected window |
+| `MOD + RMB` | Resizes window in floating & resizes mfact in tiled; when two or more windows are on screen |
+| `MOD SHIFT + SPACE` | Makes the selected window float |
+| `MOD + R` | Resets mfact |
 
 <div align="center">
   <h2>Preview</h2>
