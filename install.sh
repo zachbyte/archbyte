@@ -187,8 +187,6 @@ setupConfigurations() {
     $ESCALATION_TOOL usermod -aG kvm $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to kvm group.${RC}"; }
     $ESCALATION_TOOL usermod -aG input $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to input group.${RC}"; }
     $ESCALATION_TOOL usermod -aG disk $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to disk group.${RC}"; }
-
-#    $ESCALATION_TOOL systemctl enable --now smb.service > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start smb.${RC}"; }
 }
 
 configureAutoCpufreq() {
