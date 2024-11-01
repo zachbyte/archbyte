@@ -189,6 +189,24 @@ setupConfigurations() {
     $ESCALATION_TOOL usermod -aG disk $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to disk group.${RC}"; }
 }
 
+configureAutoCpufreq() {
+    printf "%b\n" "${YELLOW}Running auto-cpufreq installer...${RC}"
+    "$ESCALATION_TOOL"  auto-cpufreq --install
+
+    if command_exists auto-cpufreq; then
+        # Check if the system has a battery to determine if it's a laptop
+        if [ -d /sys/class/power_supply/BAT0 ]; then
+            printf "%b\n" "${GREEN}System detected as laptop. Updating auto-cpufreq for laptop...${RC}"
+            "$ESCALATION_TOOL" auto-cpufreq --force powersave
+        else
+            printf "%b\n" "${GREEN}System detected as desktop. Updating auto-cpufreq for desktop...${RC}"
+            "$ESCALATION_TOOL" auto-cpufreq --force performance
+        fi
+    else
+        printf "%b\n" "${RED}auto-cpufreq is not installed, skipping configuration.${RC}"
+    fi
+}
+
 compileSuckless() {
     printf "%b\n" "${YELLOW}Compiling suckless utils...${RC}"
     total_steps=3
