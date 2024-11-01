@@ -15,6 +15,7 @@
   <h2>Arch Server Install Script</h2>
 </div>
 
+Run in arch ISO.
  ```shell
  bash <(curl -fsSL https://github.com/zachbyte/archbyte/raw/main/arch/server-setup.sh)
  ```
