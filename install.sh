@@ -101,7 +101,7 @@ installDeps() {
         ttf-fira-sans ttf-fira-mono polkit-kde-agent xdg-desktop-portal zip unzip \
         qt5-graphicaleffects qt5-quickcontrols2 noto-fonts-extra noto-fonts-cjk noto-fonts \
         cmatrix gtk3 neovim hsetroot pamixer mpv feh zsh dash pipewire-pulse easyeffects qt5ct \
-        thunar obsidian zoxide bitwarden gparted capitaine-cursors samba smbclient jdk11-openjdk \
+        thunar obsidian zoxide bitwarden gparted capitaine-cursors gvfs-smb samba smbclient jdk11-openjdk \
         qemu python python-pip libvirt bridge-utils virt-install virt-manager dnsmasq \
         bashtop zoxide zsh-syntax-highlighting ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
@@ -188,7 +188,7 @@ setupConfigurations() {
     $ESCALATION_TOOL usermod -aG input $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to input group.${RC}"; }
     $ESCALATION_TOOL usermod -aG disk $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to disk group.${RC}"; }
 
-    $ESCALATION_TOOL systemctl enable --now smb.service > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start smb.${RC}"; }
+#    $ESCALATION_TOOL systemctl enable --now smb.service > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start smb.${RC}"; }
 }
 
 configureAutoCpufreq() {
