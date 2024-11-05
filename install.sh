@@ -133,7 +133,6 @@ setupConfigurations() {
     mv "$HOME/.zshrc" "$HOME/.zshrc-bak" > /dev/null 2>&1
     mv "$HOME/.zprofile" "$HOME/.zprofile-bak" > /dev/null 2>&1
 
-    # Copy web apps and their desktop entries
     if [ -d "$DWM_DIR/extra/webapps/bin" ]; then
         cp -r "$DWM_DIR/extra/webapps/bin/"* "$HOME/.local/bin/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy web apps to bin directory.${RC}"; }
         chmod +x "$HOME/.local/bin/"* > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to make web apps executable.${RC}"; }
@@ -201,6 +200,7 @@ setupConfigurations() {
     $ESCALATION_TOOL sed -i 's/^#*\(IdleAction=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore IdleAction.${RC}"; }
 
     ln -sf "$DWM_DIR/extra/picom.conf" "$XDG_CONFIG_HOME/picom.conf"
+    mkdir -p "$HOME/.local/share/nvim/mason" || { printf "%b\n" "${RED}Failed to create local mason directory.${RC}"; }
     ln -sf "$DWM_DIR/extra/mason" "$HOME/.local/share/nvim/mason" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up nvim mason configuration.${RC}"; }
 }
 
