@@ -104,7 +104,7 @@ installDeps() {
         thunar obsidian zoxide bitwarden gparted gvfs-smb samba smbclient jdk11-openjdk \
         qemu python python-pip libvirt bridge-utils virt-install virt-manager dnsmasq gnome-keyring \
         pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
-        pipewire-audio pipewire-alsa pipewire-pulse sof-firmware alsa-firmware alsa-utils bluez-codecs \
+        pipewire-audio pipewire-alsa pipewire-pulse sof-firmware alsa-firmware alsa-utils \
         dbus gnome-keyring libsecret polkit polkit-gnome npm picom bluez bluez-utils blueman \
         pavucontrol easyeffects helvum \
         bashtop zoxide zsh-syntax-highlighting ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
