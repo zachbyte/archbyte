@@ -199,9 +199,9 @@ setupConfigurations() {
     $ESCALATION_TOOL sed -i 's/^#*\(HandleLidSwitchDocked=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore HandleLidSwitchDocked.${RC}"; }
     $ESCALATION_TOOL sed -i 's/^#*\(IdleAction=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore IdleAction.${RC}"; }
 
-    ln -sf "$DWM_DIR/extra/picom.conf" "$XDG_CONFIG_HOME/picom.conf"
-    mkdir -p "$HOME/.local/share/nvim/mason" || { printf "%b\n" "${RED}Failed to create local mason directory.${RC}"; }
-    ln -sf "$DWM_DIR/extra/mason" "$HOME/.local/share/nvim/mason" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up nvim mason configuration.${RC}"; }
+#    ln -sf "$DWM_DIR/extra/picom.conf" "$XDG_CONFIG_HOME/picom.conf"
+#    mkdir -p "$HOME/.local/share/nvim/mason" || { printf "%b\n" "${RED}Failed to create local mason directory.${RC}"; }
+#    ln -sf "$DWM_DIR/extra/mason" "$HOME/.local/share/nvim/mason" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up nvim mason configuration.${RC}"; }
 }
 
 configureAutoCpufreq() {
