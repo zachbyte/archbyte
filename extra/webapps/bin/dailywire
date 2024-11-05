@@ -1,2 +1,2 @@
 #!/bin/bash
-thorium-browser --app=https://www.dailywire.com/
+google-chrome-stable --app=https://www.dailywire.com/

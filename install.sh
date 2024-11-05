@@ -103,14 +103,16 @@ installDeps() {
         cmatrix gtk3 neovim hsetroot pamixer mpv feh zsh dash pipewire-pulse easyeffects qt5ct \
         thunar obsidian zoxide bitwarden gparted gvfs-smb samba smbclient jdk11-openjdk \
         qemu python python-pip libvirt bridge-utils virt-install virt-manager dnsmasq gnome-keyring \
-        pipewire-audio pipewire-alsa pipewire-pulse sof-firmware alsa-ucm-conf \
-        dbus gnome-keyring libsecret polkit polkit-gnome \
+        pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
+        pipewire-audio pipewire-alsa pipewire-pulse sof-firmware alsa-firmware alsa-utils bluez-codecs \
+        dbus gnome-keyring libsecret polkit polkit-gnome npm picom bluez bluez-utils blueman \
+        pavucontrol easyeffects helvum \
         bashtop zoxide zsh-syntax-highlighting ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
     current_step=$((current_step + 1))
 
     $AUR_HELPER -S --needed --noconfirm \
-        cava pipes.sh checkupdates-with-aur thorium-browser-bin github-desktop-bin auto-cpufreq pwvucontrol > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
+        cava pipes.sh checkupdates-with-aur google-chrome github-desktop-bin auto-cpufreq > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
     printf "%b\n" "${GREEN}AUR dependencies installed (${current_step}/${total_steps})${RC}"
 }
 
@@ -191,6 +193,14 @@ setupConfigurations() {
     $ESCALATION_TOOL usermod -aG kvm $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to kvm group.${RC}"; }
     $ESCALATION_TOOL usermod -aG input $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to input group.${RC}"; }
     $ESCALATION_TOOL usermod -aG disk $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to disk group.${RC}"; }
+
+    printf "%b\n" "${YELLOW}Adding sleep configuration...${RC}"
+    LOGIND_CONF="/etc/systemd/logind.conf"
+    $ESCALATION_TOOL sed -i 's/^#*\(HandleLidSwitch=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore HandleLidSwitch.${RC}"; }
+    $ESCALATION_TOOL sed -i 's/^#*\(HandleLidSwitchDocked=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore HandleLidSwitchDocked.${RC}"; }
+    $ESCALATION_TOOL sed -i 's/^#*\(IdleAction=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore IdleAction.${RC}"; }
+
+    ln -sf "$DWM_DIR/extra/picom.conf" "$XDG_CONFIG_HOME/picom.conf"
 }
 
 configureAutoCpufreq() {
