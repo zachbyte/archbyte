@@ -97,23 +97,23 @@ Important notes
 
 | Keybind | Description |  
 | --- | --- |  
-| `MOD + X` | Spawns st (Terminal) |  
-| `MOD + R` | Spawns dmenu (Application launcher) |  
-| `MOD + Q` | Kills current window |  
-| `MOD + Tab` | Switch between tags |
-| `MOD SHIFT + Q` | Kills dwm |  
-| `MOD SHIFT + W` | Restarts dwm and keeps application positions |
-| `MOD SHIFT + F` | Toggles fullscreen (Actualfullscreen Patch) |
-| `MOD + B` | Spawns chrome (Browser) |
-| `MOD + N` | Spawns dailyWire (News) |
-| `MOD + M` | Spawns outlook (Mail) |
-| `MOD + O` | Spawns obsidian |
-| `MOD + C` | Spawns microsoft 365 (Copilot) |
-| `MOD + P` | Spawns maim (Screenshot utility) | 
-| `MOD + LMB` | Drags selected window |
-| `MOD + RMB` | Resizes window in floating & resizes mfact in tiled; when two or more windows are on screen |
-| `MOD SHIFT + SPACE` | Makes the selected window float |
-| `MOD + R` | Resets mfact |
+| `ALT + X` | Spawns st (Terminal) |  
+| `ALT + R` | Spawns dmenu (Application launcher) |  
+| `ALT + Q` | Kills current window |  
+| `ALT + Tab` | Switch between tags |
+| `ALT SHIFT + Q` | Kills dwm |  
+| `ALT SHIFT + W` | Restarts dwm and keeps application positions |
+| `ALT SHIFT + F` | Toggles fullscreen (Actualfullscreen Patch) |
+| `ALT + B` | Spawns chrome (Browser) |
+| `ALT + N` | Spawns dailyWire (News) |
+| `ALT + M` | Spawns outlook (Mail) |
+| `ALT + O` | Spawns obsidian |
+| `ALT + C` | Spawns microsoft 365 (Copilot) |
+| `ALT + P` | Spawns maim (Screenshot utility) | 
+| `ALT + LMB` | Drags selected window |
+| `ALT + RMB` | Resizes window in floating & resizes mfact in tiled; when two or more windows are on screen |
+| `ALT SHIFT + SPACE` | Makes the selected window float |
+| `ALT + R` | Resets mfact |
 
 <div align="center">
   <h2>Preview</h2>

@@ -106,7 +106,7 @@ installDeps() {
         pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
         pipewire-audio pipewire-alsa pipewire-pulse sof-firmware alsa-firmware alsa-utils \
         dbus gnome-keyring libsecret polkit polkit-gnome npm picom bluez bluez-utils blueman \
-        pavucontrol easyeffects helvum \
+        pavucontrol easyeffects helvum brightnessctl \
         bashtop zoxide zsh-syntax-highlighting ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
     current_step=$((current_step + 1))
@@ -182,7 +182,7 @@ setupConfigurations() {
     $ESCALATION_TOOL systemctl enable --now dbus > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start enable dbus.${RC}"; }
 
     printf "%b\n" "${YELLOW}Starting and enabling default network for VMs...${RC}"
-    $ESCALATION_TOOL systemctl enable --now libvirtd.service > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start enable libvirtd.${RC}"; }
+    $ESCALATION_TOOL systemctl enable --now libvirtd.service > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to enable libvirtd.${RC}"; }
     $ESCALATION_TOOL virsh net-start default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start default network.${RC}"; }
     $ESCALATION_TOOL virsh net-autostart default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set default network to autostart.${RC}"; }
 
@@ -198,10 +198,10 @@ setupConfigurations() {
     $ESCALATION_TOOL sed -i 's/^#*\(HandleLidSwitch=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore HandleLidSwitch.${RC}"; }
     $ESCALATION_TOOL sed -i 's/^#*\(HandleLidSwitchDocked=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore HandleLidSwitchDocked.${RC}"; }
     $ESCALATION_TOOL sed -i 's/^#*\(IdleAction=\).*/\1ignore/' $LOGIND_CONF > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to ignore IdleAction.${RC}"; }
-
-#    ln -sf "$DWM_DIR/extra/picom.conf" "$XDG_CONFIG_HOME/picom.conf"
-#    mkdir -p "$HOME/.local/share/nvim/mason" || { printf "%b\n" "${RED}Failed to create local mason directory.${RC}"; }
-#    ln -sf "$DWM_DIR/extra/mason" "$HOME/.local/share/nvim/mason" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up nvim mason configuration.${RC}"; }
+    
+    printf "%b\n" "${YELLOW}Enabling bluetooth configuration...${RC}"
+    rkfill unblock all
+    $ESCALATION_TOOL systemctl enable --now enable > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to enable bluetooth.${RC}"; }
 }
 
 configureAutoCpufreq() {
