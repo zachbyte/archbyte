@@ -108,7 +108,6 @@ Important notes
 | `ALT + N` | Spawns dailyWire (News) |
 | `ALT + M` | Spawns outlook (Mail) |
 | `ALT + O` | Spawns obsidian |
-| `ALT + C` | Spawns microsoft 365 (Copilot) |
 | `ALT + P` | Spawns maim (Screenshot utility) | 
 | `ALT + LMB` | Drags selected window |
 | `ALT + RMB` | Resizes window in floating & resizes mfact in tiled; when two or more windows are on screen |

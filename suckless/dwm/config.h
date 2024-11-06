@@ -70,7 +70,6 @@ static const char *obsicmd[] = { "obsidian", NULL };
 static const char *githubcmd[] = { "github-desktop", NULL };
 static const char *logoscmd[] = { "sh", "-c", "$HOME/.local/bin/logoswebapp", NULL };
 static const char *dwcmd[] = { "sh", "-c", "$HOME/.local/bin/dailywire", NULL };
-static const char *microsoftcmd[] = { "sh", "-c", "$HOME/.local/bin/microsoft365", NULL };
 static const char *outlookcmd[] = { "sh", "-c", "$HOME/.local/bin/outlook", NULL };
 
 static const Key keys[] = {
@@ -84,7 +83,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_g,      spawn,          {.v = githubcmd } },
 	{ MODKEY,                       XK_l,      spawn,          {.v = logoscmd } },
 	{ MODKEY,                       XK_n,      spawn,          {.v = dwcmd } },
-	{ MODKEY,                       XK_c,      spawn,          {.v = microsoftcmd } },
 	{ MODKEY,                       XK_m,      spawn,          {.v = outlookcmd } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
