@@ -39,7 +39,7 @@ while true; do
     sleep 1
 done &
 
-picom --config ~/.config/picom.conf &
+picom --config ~/.config/picom/picom.conf &
 
 hsetroot -solid "#1E1E2E"
 exec dwm
