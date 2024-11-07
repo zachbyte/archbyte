@@ -51,8 +51,8 @@ export TERMINAL='st-256color'
 export BROWSER='thorium-browser'
 
 # projects
-alias dwme="z ~/archbyte && nvim suckless/dwm/config.h && z suckless/dwm/"
-alias nvime="z ~/.config/nvim && nvim && z"
+alias dwme='z ~/archbyte && nvim suckless/dwm/config.h && z suckless/dwm/'
+alias nvime='z ~/.config/nvim && nvim && z'
 
 # parse the branch and transfer it to the prompt
 parse_git_branch() {
