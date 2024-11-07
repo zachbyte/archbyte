@@ -202,6 +202,9 @@ setupConfigurations() {
     printf "%b\n" "${YELLOW}Enabling bluetooth configuration...${RC}"
     rkfill unblock all
     $ESCALATION_TOOL systemctl enable --now enable > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to enable bluetooth.${RC}"; }
+
+    mkdir -p "$XDG_CONFIG_HOME/picom" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create picom directory.${RC}"; }
+    ln -sf "$DWM_DIR/extra/picom.conf" "$XDG_CONFIG_HOME/picom/picom.conf" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up picom.conf.${RC}"; }
 }
 
 configureAutoCpufreq() {
