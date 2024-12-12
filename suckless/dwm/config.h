@@ -71,6 +71,7 @@ static const char *githubcmd[] = { "github-desktop", NULL };
 static const char *logoscmd[] = { "sh", "-c", "$HOME/.local/bin/logoswebapp", NULL };
 static const char *dwcmd[] = { "sh", "-c", "$HOME/.local/bin/dailywire", NULL };
 static const char *outlookcmd[] = { "sh", "-c", "$HOME/.local/bin/outlook", NULL };
+static const char *pavucmd[] = { "pavucontrol", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -83,6 +84,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_g,      spawn,          {.v = githubcmd } },
 	{ MODKEY,                       XK_l,      spawn,          {.v = logoscmd } },
 	{ MODKEY,                       XK_n,      spawn,          {.v = dwcmd } },
+	{ MODKEY,                       XK_v,      spawn,          {.v = pavucmd } },
 	{ MODKEY,                       XK_m,      spawn,          {.v = outlookcmd } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
