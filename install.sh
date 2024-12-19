@@ -106,7 +106,7 @@ installDeps() {
         pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
         pipewire-audio pipewire-alsa pipewire-pulse sof-firmware alsa-firmware alsa-utils \
         dbus gnome-keyring libsecret polkit polkit-gnome npm picom bluez bluez-utils blueman \
-        pavucontrol easyeffects helvum brightnessctl fzf htop xclip \
+        pavucontrol easyeffects helvum brightnessctl fzf htop xclip acpi \
         bashtop zoxide zsh-syntax-highlighting ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
     current_step=$((current_step + 1))
