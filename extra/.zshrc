@@ -51,7 +51,6 @@ export TERMINAL='st-256color'
 export BROWSER='thorium-browser'
 
 # projects
-alias obi='z ~/build/brain && nvim && z && c'
 alias hfj='z ~/build/hfj && nvim && c'
 alias dwme='z ~/archbyte && nvim suckless/dwm/config.h && z suckless/dwm/'
 alias nvime='z ~/.config/nvim && nvim && z && c'
