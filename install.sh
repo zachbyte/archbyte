@@ -205,6 +205,8 @@ setupConfigurations() {
 
     mkdir -p "$XDG_CONFIG_HOME/picom" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create picom directory.${RC}"; }
     ln -sf "$DWM_DIR/extra/picom.conf" "$XDG_CONFIG_HOME/picom/picom.conf" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up picom.conf.${RC}"; }
+
+    pactl set-card-profile alsa_card.pci-0000_00_1f.3-platform-skl_hda_dsp_generic "HiFi (HDMI1, HDMI2, HDMI3, Mic1, Mic2, Speaker)" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up default audio.${RC}"; }
 }
 
 configureAutoCpufreq() {
