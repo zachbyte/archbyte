@@ -71,6 +71,7 @@ static const char *githubcmd[] = { "github-desktop", NULL };
 static const char *logoscmd[] = { "sh", "-c", "$HOME/.local/bin/logoswebapp", NULL };
 static const char *dwcmd[] = { "sh", "-c", "$HOME/.local/bin/dailywire", NULL };
 static const char *outlookcmd[] = { "sh", "-c", "$HOME/.local/bin/outlook", NULL };
+static const char *ytmusiccmd[] = { "sh", "-c", "$HOME/.local/bin/ytmusic", NULL };
 static const char *pavucmd[] = { "pavucontrol", NULL };
 
 static const Key keys[] = {
@@ -86,6 +87,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_n,      spawn,          {.v = dwcmd } },
 	{ MODKEY,                       XK_v,      spawn,          {.v = pavucmd } },
 	{ MODKEY,                       XK_m,      spawn,          {.v = outlookcmd } },
+	{ MODKEY,                       XK_y,      spawn,          {.v = ytmusiccmd } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
@@ -119,6 +121,9 @@ static const Key keys[] = {
   { 0,                            XF86XK_AudioLowerVolume,   spawn,          SHCMD ("amixer sset Master 5%- unmute")},
   { 0,                            XF86XK_AudioMute,          spawn,          SHCMD ("amixer sset Master $(amixer get Master | grep -q '\\[on\\]' && echo 'mute' || echo 'unmute')")},
   { 0,                            XF86XK_AudioRaiseVolume,   spawn,          SHCMD ("amixer sset Master 5%+ unmute")},
+  { 0,                            XF86XK_AudioPlay,          spawn,          SHCMD ("playerctl play-pause")},
+  { 0,                            XF86XK_AudioNext,          spawn,          SHCMD ("playerctl next")},
+  { 0,                            XF86XK_AudioPrev,          spawn,          SHCMD ("playerctl previous")},
 };
 
 /* button definitions */
