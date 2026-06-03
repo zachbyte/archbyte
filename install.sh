@@ -160,6 +160,7 @@ setupConfigurations() {
 
     systemctl --user enable pipewire > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up pipewire.${RC}"; }
     systemctl --user enable pipewire-pulse > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up pipewire-pulse.${RC}"; }
+    systemctl --user enable wireplumber > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up wireplumber.${RC}"; }
 
     $ESCALATION_TOOL ln -sf /bin/dash /bin/sh > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create symlink for sh.${RC}"; }
     $ESCALATION_TOOL usermod -s /bin/zsh "$USERNAME" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to change shell.${RC}"; }
@@ -227,7 +228,7 @@ installClaudeCode() {
     fi
 
     printf "%b\n" "${YELLOW}Installing @anthropic-ai/claude-code via npm...${RC}"
-    npm install -g @anthropic-ai/claude-code > /dev/null 2>&1 \
+    $ESCALATION_TOOL npm install -g @anthropic-ai/claude-code > /dev/null 2>&1 \
         || { printf "%b\n" "${RED}Failed to install Claude Code.${RC}"; return; }
     printf "%b\n" "${GREEN}Claude Code installed.${RC}"
 
