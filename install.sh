@@ -90,6 +90,8 @@ installDeps() {
     total_steps=2
     current_step=1
 
+    $ESCALATION_TOOL pacman -Sy > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to sync package database.${RC}"; }
+
     $ESCALATION_TOOL pacman -Rns --noconfirm \
         sddm lightdm gdm lxdm lemurs emptty xorg-xdm ly pulseaudio > /dev/null 2>&1
 
