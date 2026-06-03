@@ -94,20 +94,22 @@ installDeps() {
         sddm lightdm gdm lxdm lemurs emptty xorg-xdm ly pulseaudio > /dev/null 2>&1
 
     $ESCALATION_TOOL pacman -S --needed --noconfirm \
-        maim bleachbit xorg-xsetroot xorgproto xorg-xset xorg-xrdb xorg-fonts-encodings \
-        xorg-xrandr xorg-xprop xorg-setxkbmap xorg-server-common xorg-server xorg-xauth \
-        xorg-xmodmap xorg-xkbcomp xorg-xinput xorg-xinit xorg-xhost fastfetch xclip \
-        pipewire ttf-jetbrains-mono-nerd noto-fonts-emoji ttf-liberation ttf-dejavu \
-        ttf-fira-sans ttf-fira-mono polkit-kde-agent xdg-desktop-portal zip unzip \
-        qt5-graphicaleffects qt5-quickcontrols2 noto-fonts-extra noto-fonts-cjk noto-fonts \
-        cmatrix gtk3 neovim hsetroot pamixer mpv feh zsh dash pipewire-pulse easyeffects qt5ct \
-        thunar obsidian zoxide bitwarden gparted gvfs-smb samba smbclient jdk11-openjdk \
-        qemu python python-pip libvirt bridge-utils virt-install virt-manager dnsmasq gnome-keyring \
+        xorg-server xorg-server-common xorg-xauth xorg-xinit xorg-xinput xorg-xhost \
+        xorg-xrandr xorg-xprop xorg-xset xorg-xrdb xorg-xsetroot xorg-xmodmap \
+        xorg-xkbcomp xorg-setxkbmap xorg-fonts-encodings xorgproto maim xclip \
+        ttf-jetbrains-mono-nerd ttf-liberation ttf-dejavu ttf-fira-sans ttf-fira-mono \
+        noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra \
         pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
-        pipewire-audio pipewire-alsa pipewire-pulse sof-firmware alsa-firmware alsa-utils \
-        dbus gnome-keyring libsecret polkit polkit-gnome npm picom bluez bluez-utils blueman \
-        pavucontrol easyeffects helvum brightnessctl fzf htop xclip acpi playerctl \
-        bashtop zoxide zsh-syntax-highlighting ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
+        sof-firmware alsa-firmware alsa-utils pavucontrol easyeffects helvum pamixer \
+        dbus polkit polkit-gnome polkit-kde-agent gnome-keyring libsecret \
+        picom hsetroot feh mpv xdg-desktop-portal \
+        gtk3 qt5ct qt5-graphicaleffects qt5-quickcontrols2 \
+        zsh dash zsh-syntax-highlighting zoxide fzf htop bashtop acpi playerctl brightnessctl \
+        neovim fastfetch cmatrix zip unzip npm python python-pip \
+        thunar gparted gvfs-smb samba smbclient obsidian bitwarden bleachbit \
+        bluez bluez-utils blueman \
+        qemu libvirt bridge-utils virt-install virt-manager dnsmasq jdk11-openjdk \
+        ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
     current_step=$((current_step + 1))
 
@@ -137,13 +139,6 @@ setupConfigurations() {
         cp -r "$DWM_DIR/extra/webapps/bin/"* "$HOME/.local/bin/" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to copy web apps to bin directory.${RC}"; }
         chmod +x "$HOME/.local/bin/"* > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to make web apps executable.${RC}"; }
     fi
-
-    $ESCALATION_TOOL mkdir -p /etc/zsh/ > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zsh directory.${RC}"; }
-    $ESCALATION_TOOL touch /etc/zsh/zshenv > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zshenv.${RC}"; }
-    echo "export ZDOTDIR=\"$HOME\"" | $ESCALATION_TOOL tee -a /etc/zsh/zshenv > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set ZDOTDIR.${RC}"; }
-    ln -sf "$DWM_DIR/extra/.zshrc" "$HOME/.zshrc" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up .zshrc.${RC}"; }
-    ln -sf "$DWM_DIR/extra/.zprofile" "$HOME/.zprofile" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up .zprofile.${RC}"; }
-    touch "$HOME/.zlogin" "$HOME/.zshenv" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zlogin and zshenv.${RC}"; }
 
     $ESCALATION_TOOL mkdir -p /etc/zsh/ > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zsh directory.${RC}"; }
     $ESCALATION_TOOL touch /etc/zsh/zshenv > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create zshenv.${RC}"; }
@@ -210,21 +205,45 @@ setupConfigurations() {
 }
 
 configureAutoCpufreq() {
-    printf "%b\n" "${YELLOW}Running auto-cpufreq installer...${RC}"
-    "$ESCALATION_TOOL"  auto-cpufreq --install
-
+    printf "%b\n" "${YELLOW}Installing auto-cpufreq daemon...${RC}"
     if command -v auto-cpufreq > /dev/null 2>&1; then
-        # Check if the system has a battery to determine if it's a laptop
-        if [ -d /sys/class/power_supply/BAT0 ]; then
-            printf "%b\n" "${GREEN}System detected as laptop. Updating auto-cpufreq for laptop...${RC}"
-            "$ESCALATION_TOOL" auto-cpufreq --force powersave
-        else
-            printf "%b\n" "${GREEN}System detected as desktop. Updating auto-cpufreq for desktop...${RC}"
-            "$ESCALATION_TOOL" auto-cpufreq --force performance
-        fi
+        $ESCALATION_TOOL auto-cpufreq --install > /dev/null 2>&1 \
+            || { printf "%b\n" "${RED}Failed to install auto-cpufreq daemon.${RC}"; return; }
+        printf "%b\n" "${GREEN}auto-cpufreq daemon installed.${RC}"
     else
         printf "%b\n" "${RED}auto-cpufreq is not installed, skipping configuration.${RC}"
     fi
+}
+
+installClaudeCode() {
+    printf "%b\n" ""
+    printf "%b\n" "${YELLOW}------------------------------------------------------------------------${RC}"
+    printf "%b\n" "${YELLOW}                     Installing Claude Code                             ${RC}"
+    printf "%b\n" "${YELLOW}------------------------------------------------------------------------${RC}"
+
+    if ! command -v npm > /dev/null 2>&1; then
+        printf "%b\n" "${RED}npm is not available, skipping Claude Code installation.${RC}"
+        return
+    fi
+
+    printf "%b\n" "${YELLOW}Installing @anthropic-ai/claude-code via npm...${RC}"
+    npm install -g @anthropic-ai/claude-code > /dev/null 2>&1 \
+        || { printf "%b\n" "${RED}Failed to install Claude Code.${RC}"; return; }
+    printf "%b\n" "${GREEN}Claude Code installed.${RC}"
+
+    printf "%b\n" "${YELLOW}Writing Claude Code settings...${RC}"
+    mkdir -p "$HOME/.claude" > /dev/null 2>&1
+    cat > "$HOME/.claude/settings.json" << 'EOF'
+{
+  "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "autoCompactEnabled": true
+}
+EOF
+    printf "%b\n" "${GREEN}Claude Code configured.${RC}"
+    printf "%b\n" "${YELLOW}------------------------------------------------------------------------${RC}"
+    printf "%b\n" ""
 }
 
 compileSuckless() {
@@ -261,5 +280,6 @@ setupAutoLogin
 installDeps
 setupConfigurations
 configureAutoCpufreq
+installClaudeCode
 compileSuckless
 success
