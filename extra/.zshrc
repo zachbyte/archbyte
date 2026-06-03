@@ -21,6 +21,7 @@ setopt HIST_REDUCE_BLANKS
 eval "$(zoxide init zsh)"
 
 # essentials
+alias cc='claude --dangerously-skip-permissions'
 alias grep='grep --color=auto'
 alias ff='clear && fastfetch'
 alias c='clear'
