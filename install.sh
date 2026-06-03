@@ -97,19 +97,35 @@ installDeps() {
         xorg-server xorg-server-common xorg-xauth xorg-xinit xorg-xinput xorg-xhost \
         xorg-xrandr xorg-xprop xorg-xset xorg-xrdb xorg-xsetroot xorg-xmodmap \
         xorg-xkbcomp xorg-setxkbmap xorg-fonts-encodings xorgproto maim xclip \
-        ttf-jetbrains-mono-nerd ttf-liberation ttf-dejavu ttf-fira-sans ttf-fira-mono \
-        noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra \
-        pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
-        sof-firmware alsa-firmware alsa-utils pavucontrol easyeffects helvum pamixer \
+        libx11 libxft libxinerama libxcb \
         dbus polkit polkit-gnome polkit-kde-agent gnome-keyring libsecret \
-        picom hsetroot feh mpv xdg-desktop-portal \
-        gtk3 qt5ct qt5-graphicaleffects qt5-quickcontrols2 \
         zsh dash zsh-syntax-highlighting zoxide fzf htop bashtop acpi playerctl brightnessctl \
         neovim fastfetch cmatrix zip unzip npm python python-pip \
-        thunar gparted gvfs-smb samba smbclient obsidian bitwarden bleachbit \
+        picom hsetroot feh mpv xdg-desktop-portal \
+        gtk3 qt5ct qt5-graphicaleffects qt5-quickcontrols2 > /dev/null 2>&1 \
+        || { printf "%b\n" "${RED}Failed to install core dependencies.${RC}"; }
+
+    $ESCALATION_TOOL pacman -S --needed --noconfirm \
+        ttf-jetbrains-mono-nerd ttf-liberation ttf-dejavu ttf-fira-sans ttf-fira-mono \
+        noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra > /dev/null 2>&1 \
+        || { printf "%b\n" "${RED}Failed to install fonts.${RC}"; }
+
+    $ESCALATION_TOOL pacman -S --needed --noconfirm \
+        pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
+        sof-firmware alsa-firmware alsa-utils pavucontrol easyeffects helvum pamixer > /dev/null 2>&1 \
+        || { printf "%b\n" "${RED}Failed to install audio packages.${RC}"; }
+
+    $ESCALATION_TOOL pacman -S --needed --noconfirm \
+        thunar gparted gvfs-smb samba smbclient bleachbit \
         bluez bluez-utils blueman \
-        qemu libvirt bridge-utils virt-install virt-manager dnsmasq jdk11-openjdk \
-        ffmpeg > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install dependencies.${RC}"; }
+        qemu libvirt bridge-utils virt-install virt-manager dnsmasq \
+        ffmpeg > /dev/null 2>&1 \
+        || { printf "%b\n" "${RED}Failed to install app dependencies.${RC}"; }
+
+    $ESCALATION_TOOL pacman -S --needed --noconfirm \
+        obsidian bitwarden jdk11-openjdk > /dev/null 2>&1 \
+        || { printf "%b\n" "${RED}Failed to install optional apps (obsidian/bitwarden/jdk11).${RC}"; }
+
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
     current_step=$((current_step + 1))
 
@@ -158,9 +174,9 @@ setupConfigurations() {
 
     echo "QT_QPA_PLATFORMTHEME=qt5ct" | $ESCALATION_TOOL tee -a /etc/environment > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set qt5ct in environment.${RC}"; }
 
-    systemctl --user enable pipewire > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up pipewire.${RC}"; }
-    systemctl --user enable pipewire-pulse > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up pipewire-pulse.${RC}"; }
-    systemctl --user enable wireplumber > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up wireplumber.${RC}"; }
+    XDG_RUNTIME_DIR="/run/user/$(id -u)" systemctl --user enable pipewire > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up pipewire.${RC}"; }
+    XDG_RUNTIME_DIR="/run/user/$(id -u)" systemctl --user enable pipewire-pulse > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up pipewire-pulse.${RC}"; }
+    XDG_RUNTIME_DIR="/run/user/$(id -u)" systemctl --user enable wireplumber > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up wireplumber.${RC}"; }
 
     $ESCALATION_TOOL ln -sf /bin/dash /bin/sh > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create symlink for sh.${RC}"; }
     $ESCALATION_TOOL usermod -s /bin/zsh "$USERNAME" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to change shell.${RC}"; }
@@ -179,12 +195,11 @@ setupConfigurations() {
 
     printf "%b\n" "${YELLOW}Starting and enabling default network for VMs...${RC}"
     $ESCALATION_TOOL systemctl enable --now libvirtd.service > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to enable libvirtd.${RC}"; }
-    $ESCALATION_TOOL virsh net-start default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to start default network.${RC}"; }
+    $ESCALATION_TOOL virsh net-start default > /dev/null 2>&1; true
     $ESCALATION_TOOL virsh net-autostart default > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set default network to autostart.${RC}"; }
 
     printf "%b\n" "${YELLOW}Adding user to required groups...${RC}"
     $ESCALATION_TOOL usermod -aG libvirt $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to libvirt group.${RC}"; }
-    $ESCALATION_TOOL usermod -aG libvirt-qemu $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to libvirt-qemu group.${RC}"; }
     $ESCALATION_TOOL usermod -aG kvm $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to kvm group.${RC}"; }
     $ESCALATION_TOOL usermod -aG input $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to input group.${RC}"; }
     $ESCALATION_TOOL usermod -aG disk $USER > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to add user to disk group.${RC}"; }
@@ -202,7 +217,6 @@ setupConfigurations() {
     mkdir -p "$XDG_CONFIG_HOME/picom" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to create picom directory.${RC}"; }
     ln -sf "$DWM_DIR/extra/picom.conf" "$XDG_CONFIG_HOME/picom/picom.conf" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up picom.conf.${RC}"; }
 
-    pactl set-card-profile alsa_card.pci-0000_00_1f.3-platform-skl_hda_dsp_generic "HiFi (HDMI1, HDMI2, HDMI3, Mic1, Mic2, Speaker)" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up default audio.${RC}"; }
 }
 
 configureAutoCpufreq() {
