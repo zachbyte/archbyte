@@ -102,7 +102,7 @@ installDeps() {
         libx11 libxft libxinerama libxcb \
         dbus polkit polkit-gnome polkit-kde-agent gnome-keyring libsecret \
         zsh dash zsh-syntax-highlighting zoxide fzf htop bashtop acpi playerctl brightnessctl \
-        neovim fastfetch cmatrix zip unzip npm python python-pip \
+        neovim fastfetch cmatrix zip unzip python python-pip \
         picom hsetroot feh mpv xdg-desktop-portal \
         gtk3 qt5ct qt5-graphicaleffects qt5-quickcontrols2 > /dev/null 2>&1 \
         || { printf "%b\n" "${RED}Failed to install core dependencies.${RC}"; }
@@ -232,36 +232,6 @@ configureAutoCpufreq() {
     fi
 }
 
-installClaudeCode() {
-    printf "%b\n" ""
-    printf "%b\n" "${YELLOW}------------------------------------------------------------------------${RC}"
-    printf "%b\n" "${YELLOW}                     Installing Claude Code                             ${RC}"
-    printf "%b\n" "${YELLOW}------------------------------------------------------------------------${RC}"
-
-    if ! command -v npm > /dev/null 2>&1; then
-        printf "%b\n" "${RED}npm is not available, skipping Claude Code installation.${RC}"
-        return
-    fi
-
-    printf "%b\n" "${YELLOW}Installing @anthropic-ai/claude-code via npm...${RC}"
-    $ESCALATION_TOOL npm install -g @anthropic-ai/claude-code > /dev/null 2>&1 \
-        || { printf "%b\n" "${RED}Failed to install Claude Code.${RC}"; return; }
-    printf "%b\n" "${GREEN}Claude Code installed.${RC}"
-
-    printf "%b\n" "${YELLOW}Writing Claude Code settings...${RC}"
-    mkdir -p "$HOME/.claude" > /dev/null 2>&1
-    cat > "$HOME/.claude/settings.json" << 'EOF'
-{
-  "autoUpdatesChannel": "latest",
-  "skipDangerousModePermissionPrompt": true,
-  "theme": "dark",
-  "autoCompactEnabled": true
-}
-EOF
-    printf "%b\n" "${GREEN}Claude Code configured.${RC}"
-    printf "%b\n" "${YELLOW}------------------------------------------------------------------------${RC}"
-    printf "%b\n" ""
-}
 
 compileSuckless() {
     printf "%b\n" "${YELLOW}Compiling suckless utils...${RC}"
@@ -297,6 +267,5 @@ setupAutoLogin
 installDeps
 setupConfigurations
 configureAutoCpufreq
-installClaudeCode
 compileSuckless
 success
