@@ -63,6 +63,22 @@ background_checks() {
     docker_check
 }
 
+set_password() {
+    local var_name="$1"
+    while true; do
+        read -rs -p "Enter ${var_name}: " pass1
+        echo
+        read -rs -p "Confirm ${var_name}: " pass2
+        echo
+        if [[ "$pass1" == "$pass2" ]]; then
+            export "$var_name"="$pass1"
+            break
+        else
+            echo "Passwords do not match. Try again."
+        fi
+    done
+}
+
 select_option() {
     local options=("$@")
     local num_options=${#options[@]}
@@ -397,9 +413,13 @@ elif [[ "${FS}" == "luks" ]]; then
     mkfs.vfat -F32 -n "EFIBOOT" "${partition2}"
 # enter luks password to cryptsetup and format root partition
     echo -n "${LUKS_PASSWORD}" | cryptsetup -y -v luksFormat "${partition3}" -
-# open luks container and ROOT will be place holder 
+# capture UUID of the encrypted partition before opening it
+    ENCRYPTED_PARTITION_UUID=$(blkid -s UUID -o value "${partition3}")
+# open luks container and ROOT will be the mapper name
     echo -n "${LUKS_PASSWORD}" | cryptsetup open "${partition3}" ROOT -
-# now format that container
+# redirect partition3 to the opened mapper device for all subsequent mounts
+    partition3="/dev/mapper/ROOT"
+# now format the decrypted container
     mkfs.btrfs -L ROOT "${partition3}"
 # create subvolumes for btrfs
     mount -t btrfs "${partition3}" /mnt
@@ -601,7 +621,7 @@ GRUB EFI Bootloader Install & Check
 "
 
 if [[ -d "/sys/firmware/efi" ]]; then
-    grub-install --efi-directory=/boot ${DISK}
+    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 fi
 
 echo -ne "

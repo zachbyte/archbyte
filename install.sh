@@ -79,9 +79,9 @@ setupAutoLogin() {
     printf "%b\n" "${YELLOW}Setting up TTY auto-login for user ${USERNAME}...${RC}"
     
     $ESCALATION_TOOL mkdir -p /etc/systemd/system/getty@tty1.service.d
-    echo "[Service]
-    ExecStart=
-    ExecStart=-/sbin/agetty --autologin ${USERNAME} --noclear %I \$TERM" | $ESCALATION_TOOL tee /etc/systemd/system/getty@tty1.service.d/override.conf > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to set up TTY auto-login.${RC}"; }
+    printf '[Service]\nExecStart=\nExecStart=-/sbin/agetty --autologin %s --noclear %%I $TERM\n' "$USERNAME" \
+        | $ESCALATION_TOOL tee /etc/systemd/system/getty@tty1.service.d/override.conf > /dev/null 2>&1 \
+        || { printf "%b\n" "${RED}Failed to set up TTY auto-login.${RC}"; }
 }
 
 installDeps() {
@@ -213,7 +213,7 @@ configureAutoCpufreq() {
     printf "%b\n" "${YELLOW}Running auto-cpufreq installer...${RC}"
     "$ESCALATION_TOOL"  auto-cpufreq --install
 
-    if command_exists auto-cpufreq; then
+    if command -v auto-cpufreq > /dev/null 2>&1; then
         # Check if the system has a battery to determine if it's a laptop
         if [ -d /sys/class/power_supply/BAT0 ]; then
             printf "%b\n" "${GREEN}System detected as laptop. Updating auto-cpufreq for laptop...${RC}"
@@ -260,5 +260,6 @@ setSysOps
 setupAutoLogin
 installDeps
 setupConfigurations
+configureAutoCpufreq
 compileSuckless
 success
