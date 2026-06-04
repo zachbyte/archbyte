@@ -57,7 +57,7 @@ The status bar text is set by a `while true; sleep 1` loop in `.xinitrc` that ca
 
 ### DWM configuration
 
-All DWM customization lives in `suckless/dwm/config.h`. The modifier key is `Mod1` (Alt). Web apps (`dailywire`, `outlook`, `ytmusic`, `logoswebapp`) are shell scripts in `extra/webapps/bin/` copied to `~/.local/bin/` at install time and launched by DWM keybinds.
+All DWM customization lives in `suckless/dwm/config.h`. The modifier key is `Mod1` (Alt). Application launchers (terminal, browser, file manager, etc.) are defined as `*cmd[]` arrays in `config.h` and bound to keys in the `keys[]` table.
 
 The `colorbar` patch enables the `SchemeStatus`, `SchemeTagsSel`, `SchemeTagsNorm`, `SchemeInfoSel`, `SchemeInfoNorm` color slots — these are in addition to the standard `SchemeNorm`/`SchemeSel` pair and must all be present in `config.h`.
 

@@ -49,7 +49,7 @@ alias log='git log'
 export EDITOR='nvim'
 export VISUAL='nvim'
 export TERMINAL='st-256color'
-export BROWSER='thorium-browser'
+export BROWSER='firefox'
 
 # projects
 alias hfj='z ~/build/hfj && nvim && c'
@@ -156,3 +156,4 @@ ZSH_HIGHLIGHT_STYLES[default]='fg=#cdd6f4'
 ZSH_HIGHLIGHT_STYLES[cursor]='fg=#cdd6f4'
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH="$HOME/.local/bin:$PATH"

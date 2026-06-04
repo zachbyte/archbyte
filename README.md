@@ -105,9 +105,7 @@ Important notes
 | `ALT SHIFT + W` | Restarts dwm and keeps application positions |
 | `ALT SHIFT + F` | Toggles fullscreen (Actualfullscreen Patch) |
 | `ALT + v` | Volume control |  
-| `ALT + B` | Spawns chrome (Browser) |
-| `ALT + N` | Spawns dailyWire (News) |
-| `ALT + M` | Spawns outlook (Mail) |
+| `ALT + B` | Spawns firefox (Browser) |
 | `ALT + O` | Spawns obsidian |
 | `ALT + P` | Spawns maim (Screenshot utility) | 
 | `ALT + LMB` | Drags selected window |

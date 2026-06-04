@@ -121,6 +121,7 @@ installDeps() {
 
     $ESCALATION_TOOL pacman -S --needed --noconfirm \
         thunar gparted gvfs-smb samba smbclient bleachbit \
+        firefox \
         bluez bluez-utils blueman \
         qemu-full libvirt virt-install virt-manager dnsmasq \
         ffmpeg > /dev/null 2>&1 \
@@ -133,7 +134,7 @@ installDeps() {
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
     current_step=$((current_step + 1))
 
-    for pkg in pipes.sh checkupdates-with-aur google-chrome github-desktop-bin auto-cpufreq; do
+    for pkg in pipes.sh checkupdates-with-aur github-desktop-bin auto-cpufreq; do
         $AUR_HELPER -S --needed --noconfirm "$pkg" > /dev/null 2>&1 \
             || { printf "%b\n" "${RED}Failed to install AUR package: $pkg${RC}"; }
     done
