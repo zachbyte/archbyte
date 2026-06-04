@@ -33,7 +33,7 @@ moveToHome() {
 }
 
 declareFuncs() {
-    DWM_DIR="$HOME/dwm"
+    DWM_DIR="$HOME/archbyte"
     mkdir -p "$HOME/.config"
     XDG_CONFIG_HOME="$HOME/.config"
 }
@@ -102,7 +102,7 @@ uninstallSuckless() {
     { cd "$DWM_DIR/suckless/dmenu" && $ESCALATION_TOOL make uninstall > /dev/null 2>&1 && cd - > /dev/null; } || { printf "%b\n" "${RED}Failed to uninstall dmenu.${RC}"; }
     printf "%b\n" "${GREEN}dmenu uninstalled (${current_step}/${total_steps})${RC}"
 
-    rm -rf "$HOME/dwm" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to remove dwm directory.${RC}"; exit 1; }
+    rm -rf "$DWM_DIR" > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to remove archbyte directory.${RC}"; exit 1; }
 }
 
 success() {
