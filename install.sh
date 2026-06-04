@@ -112,7 +112,7 @@ installDeps() {
         noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra > /dev/null 2>&1 \
         || { printf "%b\n" "${RED}Failed to install fonts.${RC}"; }
 
-    $ESCALATION_TOOL pacman -R --noconfirm jack2 2>/dev/null || true
+    $ESCALATION_TOOL pacman -Rdd --noconfirm jack2 2>/dev/null || true
 
     $ESCALATION_TOOL pacman -S --needed --noconfirm \
         pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
@@ -122,7 +122,7 @@ installDeps() {
     $ESCALATION_TOOL pacman -S --needed --noconfirm \
         thunar gparted gvfs-smb samba smbclient bleachbit \
         bluez bluez-utils blueman \
-        qemu-full libvirt bridge-utils virt-install virt-manager dnsmasq \
+        qemu-full libvirt virt-install virt-manager dnsmasq \
         ffmpeg > /dev/null 2>&1 \
         || { printf "%b\n" "${RED}Failed to install app dependencies.${RC}"; }
 
