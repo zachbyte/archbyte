@@ -112,6 +112,8 @@ installDeps() {
         noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra > /dev/null 2>&1 \
         || { printf "%b\n" "${RED}Failed to install fonts.${RC}"; }
 
+    $ESCALATION_TOOL pacman -R --noconfirm jack2 2>/dev/null || true
+
     $ESCALATION_TOOL pacman -S --needed --noconfirm \
         pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
         sof-firmware alsa-firmware alsa-utils pavucontrol easyeffects helvum pamixer > /dev/null 2>&1 \
