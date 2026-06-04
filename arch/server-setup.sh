@@ -573,8 +573,30 @@ echo -ne "
 "
 # Graphics Drivers find and install
 if echo "${gpu_type}" | grep -E "NVIDIA|GeForce"; then
-    echo "Installing NVIDIA drivers: nvidia-lts"
-    pacman -S --noconfirm --needed nvidia-lts
+    echo "Installing NVIDIA drivers: nvidia-lts (proprietary)"
+    pacman -S --noconfirm --needed nvidia-lts nvidia-utils lib32-nvidia-utils nvidia-settings
+    # Switch from the open-source nouveau driver to NVIDIA's proprietary one.
+    # 1) Load the NVIDIA modules early (KMS) so nouveau never claims the GPU first.
+    sed -i 's/^MODULES=(\(.*\))/MODULES=(\1 nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
+    # 2) Belt-and-suspenders: keep nouveau from loading at all.
+    echo "blacklist nouveau" > /etc/modprobe.d/nouveau-blacklist.conf
+    # 3) Rebuild the initramfs automatically on every NVIDIA driver upgrade so the
+    #    early-loaded modules never go out of sync with the installed driver.
+    mkdir -p /etc/pacman.d/hooks
+    cat > /etc/pacman.d/hooks/nvidia.hook <<'NVHOOK'
+[Trigger]
+Operation=Install
+Operation=Upgrade
+Operation=Remove
+Type=Package
+Target=nvidia-lts
+
+[Action]
+Description=Updating NVIDIA module in initcpio
+Depends=mkinitcpio
+When=PostTransaction
+Exec=/usr/bin/mkinitcpio -P
+NVHOOK
 elif echo "${gpu_type}" | grep 'VGA' | grep -E "Radeon|AMD"; then
     echo "Installing AMD drivers: xf86-video-amdgpu"
     pacman -S --noconfirm --needed xf86-video-amdgpu
@@ -602,7 +624,10 @@ if [[ ${FS} == "luks" ]]; then
 # Making sure to edit mkinitcpio conf if luks is selected
 # add encrypt in mkinitcpio.conf before filesystems in hooks
     sed -i 's/filesystems/encrypt filesystems/g' /etc/mkinitcpio.conf
-# making mkinitcpio with linux kernel
+fi
+# Rebuild the initramfs whenever we've changed it: the LUKS encrypt hook
+# and/or the NVIDIA early-KMS modules added above.
+if [[ ${FS} == "luks" ]] || echo "${gpu_type}" | grep -qE "NVIDIA|GeForce"; then
     mkinitcpio -p linux-lts
 fi
 
@@ -635,6 +660,10 @@ sed -i "s%GRUB_CMDLINE_LINUX_DEFAULT=\"%GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice
 fi
 # set kernel parameter for adding splash screen
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& splash /' /etc/default/grub
+# enable NVIDIA DRM kernel mode setting for a flicker-free handoff with the proprietary driver
+if echo "${gpu_type}" | grep -qE "NVIDIA|GeForce"; then
+    sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& nvidia_drm.modeset=1/' /etc/default/grub
+fi
 echo -e "Updating grub..."
 grub-mkconfig -o /boot/grub/grub.cfg
 echo -e "All set!"
