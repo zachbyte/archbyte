@@ -102,7 +102,7 @@ installDeps() {
         libx11 libxft libxinerama libxcb \
         dbus polkit polkit-gnome polkit-kde-agent gnome-keyring libsecret \
         zsh dash zsh-syntax-highlighting zoxide fzf htop bashtop acpi playerctl brightnessctl \
-        neovim fastfetch cmatrix zip unzip python python-pip \
+        neovim fastfetch cmatrix zip unzip python python-pip cava \
         picom hsetroot feh mpv xdg-desktop-portal \
         gtk3 qt5ct qt5-graphicaleffects qt5-quickcontrols2 > /dev/null 2>&1 \
         || { printf "%b\n" "${RED}Failed to install core dependencies.${RC}"; }
@@ -113,7 +113,7 @@ installDeps() {
         || { printf "%b\n" "${RED}Failed to install fonts.${RC}"; }
 
     $ESCALATION_TOOL pacman -S --needed --noconfirm \
-        pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
+        pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
         sof-firmware alsa-firmware alsa-utils pavucontrol easyeffects helvum pamixer > /dev/null 2>&1 \
         || { printf "%b\n" "${RED}Failed to install audio packages.${RC}"; }
 
@@ -125,14 +125,16 @@ installDeps() {
         || { printf "%b\n" "${RED}Failed to install app dependencies.${RC}"; }
 
     $ESCALATION_TOOL pacman -S --needed --noconfirm \
-        obsidian bitwarden jdk11-openjdk > /dev/null 2>&1 \
-        || { printf "%b\n" "${RED}Failed to install optional apps (obsidian/bitwarden/jdk11).${RC}"; }
+        obsidian bitwarden > /dev/null 2>&1 \
+        || { printf "%b\n" "${RED}Failed to install optional apps (obsidian/bitwarden).${RC}"; }
 
     printf "%b\n" "${GREEN}Dependencies installed (${current_step}/${total_steps})${RC}"
     current_step=$((current_step + 1))
 
-    $AUR_HELPER -S --needed --noconfirm \
-        cava pipes.sh checkupdates-with-aur google-chrome github-desktop-bin auto-cpufreq > /dev/null 2>&1 || { printf "%b\n" "${RED}Failed to install AUR dependencies.${RC}"; }
+    for pkg in pipes.sh checkupdates-with-aur google-chrome github-desktop-bin auto-cpufreq; do
+        $AUR_HELPER -S --needed --noconfirm "$pkg" > /dev/null 2>&1 \
+            || { printf "%b\n" "${RED}Failed to install AUR package: $pkg${RC}"; }
+    done
     printf "%b\n" "${GREEN}AUR dependencies installed (${current_step}/${total_steps})${RC}"
 }
 
