@@ -120,7 +120,7 @@ installDeps() {
     $ESCALATION_TOOL pacman -S --needed --noconfirm \
         thunar gparted gvfs-smb samba smbclient bleachbit \
         bluez bluez-utils blueman \
-        qemu libvirt bridge-utils virt-install virt-manager dnsmasq \
+        qemu-full libvirt bridge-utils virt-install virt-manager dnsmasq \
         ffmpeg > /dev/null 2>&1 \
         || { printf "%b\n" "${RED}Failed to install app dependencies.${RC}"; }
 
